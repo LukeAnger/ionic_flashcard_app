@@ -15,11 +15,14 @@ import {
   IonCard,
   IonCardContent,
 } from "@ionic/react";
+import { randomizeArray } from "../utils/flashcardFuncs";
 
 const Tab3: React.FC = () => {
   const { state, dispatch } = useFlashcardStore();
   const currentFlashcard = state.flashcards[state.currentIndex];
-
+  if (state.category) {
+    currentFlashcard.options = randomizeArray(currentFlashcard?.options);
+  }
   const handleAnswer = (isCorrect: boolean) => {
     dispatch(nextCard(isCorrect));
   };
