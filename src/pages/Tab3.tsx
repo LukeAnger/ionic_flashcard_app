@@ -15,6 +15,7 @@ import {
   IonCard,
   IonCardContent,
 } from "@ionic/react";
+import './Tab3.css';
 import { randomizeArray } from "../utils/flashcardFuncs";
 
 const Tab3: React.FC = () => {
@@ -50,9 +51,10 @@ const Tab3: React.FC = () => {
         ) : currentFlashcard ? (
           <IonCard>
             <IonCardContent>
-              <h3>{currentFlashcard.question}</h3>
+              <h3 className="question">{currentFlashcard.question}</h3>
               {currentFlashcard.options.map((option: any) => (
                 <IonButton
+                  className="option"
                   key={option.id}
                   onClick={() => handleAnswer(option.isCorrect)}
                   expand="block"
