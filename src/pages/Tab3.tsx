@@ -1,5 +1,5 @@
-import React from "react";
-import { useFlashcardStore, FlashcardStoreProvider } from "../context/store/flashcardStore";
+import React, { useEffect, useState } from "react";
+import { useStore } from "../context/store/";
 import {
   setCategory,
   nextCard,
@@ -18,15 +18,34 @@ import {
 import './Tab3.css';
 import { randomizeArray } from "../utils/flashcardFuncs";
 
+
+const body: any = {
+  "course_id": "37",
+  "user_id": "9",
+  "question_count": 5,
+  "selected_concepts": [
+      "decision trees",
+      "k-nearest neighbors",
+      "logistic regression",
+      "support vector machines",
+      "feature scaling"
+  ]
+}
+
 const Tab3: React.FC = () => {
-  const { state, dispatch } = useFlashcardStore();
-  const currentFlashcard = state.flashcards[state.currentIndex];
-  if (state.category) {
-    currentFlashcard.options = randomizeArray(currentFlashcard?.options);
-  }
-  const handleAnswer = (isCorrect: boolean) => {
-    dispatch(nextCard(isCorrect));
-  };
+  const { state } = useStore();
+  console.log("TAB 3 FLASHCARE STATE STORE: ", state);
+
+
+  // const getCustomQuestions = () => {
+  //   const selectedConcepts = ["linear regression", "logistic regression"];
+  //   fetchQuestions({
+  //     courseId: "37",
+  //     userId: "9",
+  //     selectedConcepts,
+  //     questionCount: 15,
+  //   });
+  // };
 
   return (
     <IonPage>
@@ -36,43 +55,7 @@ const Tab3: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {state.category === null ? (
-          <div>
-            <h2>Select a Category</h2>
-            {["Python", "Korean"].map((categoryName) => (
-              <IonButton
-                key={categoryName}
-                onClick={() => dispatch(setCategory(categoryName))}
-              >
-                {categoryName}
-              </IonButton>
-            ))}
-          </div>
-        ) : currentFlashcard ? (
-          <IonCard>
-            <IonCardContent>
-              <h3 className="question">{currentFlashcard.question}</h3>
-              {currentFlashcard.options.map((option: any) => (
-                <IonButton
-                  className="option"
-                  key={option.id}
-                  onClick={() => handleAnswer(option.isCorrect)}
-                  expand="block"
-                >
-                  {option.text}
-                </IonButton>
-              ))}
-            </IonCardContent>
-          </IonCard>
-        ) : (
-          <div>
-            <h2>Quiz Complete!</h2>
-            <p>
-              Your score: {state.score} / {state.flashcards.length}
-            </p>
-            <IonButton onClick={() => dispatch(reset())}>Restart</IonButton>
-          </div>
-        )}
+        Test
       </IonContent>
     </IonPage>
   );
