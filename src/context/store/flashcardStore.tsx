@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useReducer, ReactNode } from "react";
 import { flashcardReducer, initialFlashcardState } from "../reducers/flashcardReducer";
 import { FlashcardActions } from "../actions/flashcardActions";
+import { getQuestions } from "../../utils/getQuestions";
+import { getTopicMapping } from "../../utils/getTopicMapping";
+import { getNextConcepts } from "../../utils/getNextConcepts";
 
 interface FlashcardStoreContextType {
   state: typeof initialFlashcardState;
@@ -34,3 +37,5 @@ export const FlashcardStoreProvider: React.FC<FlashcardStoreProviderProps> = ({
     </FlashcardStoreContext.Provider>
   );
 };
+
+

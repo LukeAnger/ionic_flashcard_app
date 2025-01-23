@@ -6,6 +6,9 @@ export interface FlashcardState {
   flashcards: any[];
   currentIndex: number;
   score: number;
+  questions: any[]; // For storing fetched questions
+  topicMapping: Record<string, string[]>; // For topic mapping
+  nextConcepts: Record<string, number>; // For next concepts probabilities
 }
 
 export const initialFlashcardState: FlashcardState = {
@@ -13,6 +16,9 @@ export const initialFlashcardState: FlashcardState = {
   flashcards: [],
   currentIndex: 0,
   score: 0,
+  questions: [],
+  topicMapping: {},
+  nextConcepts: {},
 };
 
 export const flashcardReducer = (
@@ -48,6 +54,25 @@ export const flashcardReducer = (
         currentIndex: 0,
         score: 0,
       };
+
+      case "SET_QUESTIONS":
+      return {
+        ...state,
+        questions: action.payload,
+      };
+
+    case "SET_TOPIC_MAPPING":
+      return {
+        ...state,
+        topicMapping: action.payload,
+      };
+
+    case "SET_NEXT_CONCEPTS":
+      return {
+        ...state,
+        nextConcepts: action.payload,
+      };
+
       default:
         throw new Error(`Unhandled action type: ${(action as FlashcardActions).type}`);
       
