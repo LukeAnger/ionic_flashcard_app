@@ -1,20 +1,21 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from '@ionic/react';
-import './Home.css';
 import { useHistory } from "react-router-dom";
-import CluesLogo from '../static/cluesLogo';
+import './Home.css';
+
+import Header from '../components/header/Header';
 
 const Home: React.FC = () => {
-  const history = useHistory();
+  // const history = useHistory();
+
+  // console.log("Home");
 
   return (
     <IonPage>
       <IonContent fullscreen>
-        <IonHeader collapse="condense" className='row jc-c ai-c'>
-          <CluesLogo />
-        </IonHeader>
-        <IonButton expand="block" onClick={() => history.push("/customize-quiz")}>
+        <Header showBack={true} />
+        {/* <IonButton expand="block" onClick={() => history.push("/customize-quiz")}>
           Customize Quiz
-        </IonButton>
+        </IonButton> */}
       </IonContent>
     </IonPage>
   );
