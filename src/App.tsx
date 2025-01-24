@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -13,7 +13,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import Home from './pages/Home';
 import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import Tab3 from './pages/Quiz';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -46,50 +46,67 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 import { FlashcardStoreProvider } from './context/store/flashcardStore';
-
 import CustomizeQuiz from './pages/CustomizeQuiz';
 
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <FlashcardStoreProvider>
-    <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route path="/customize-quiz" exact component={CustomizeQuiz} />
-            <Route exact path="/tab2">
-              <Tab2 />
-            </Route>
-            <Route path="/tab3">
-              <Tab3 />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="home" href="/home">
-              <IonIcon aria-hidden="true" icon={triangle} />
-              <IonLabel>Home</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
-              <IonIcon aria-hidden="true" icon={ellipse} />
-              <IonLabel>Tab 2</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
-              <IonIcon aria-hidden="true" icon={square} />
-              <IonLabel>Tab 3</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
-    </IonApp>
-  </FlashcardStoreProvider>
-);
+const App: React.FC = () => {
+  // console.log('APP');
+  return (
+    <FlashcardStoreProvider>
+      <IonApp>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet animated={false}>
+              
+              <Route exact path="/home" component={Home} />
+
+              <Route exact path="/customize-quiz" component={CustomizeQuiz} />
+
+              {/* <Route exact path="/tab2" component={Tab2} /> */}
+
+              <Route exact path="/quiz" component={Tab3} />
+
+              <Route exact path="/">
+                <Redirect to="/home" />
+              </Route>
+
+            </IonRouterOutlet>
+
+            <TabBar />
+          </IonTabs>
+        </IonReactRouter>
+      </IonApp>
+    </FlashcardStoreProvider>
+  );
+};
+
+const TabBar: React.FC = () => {
+  const location = useLocation();
+  const tabBarLocations = ['/home', '/tab2', 'customize-quiz'];
+  const showTabBar = tabBarLocations.includes(location.pathname);
+  // console.log('SHOW TAB BAR:', showTabBar);
+  return (
+    <>
+      {showTabBar && (
+      <IonTabBar slot="bottom">
+        <IonTabButton tab="home" href="/home">
+          <IonIcon aria-hidden="true" icon={triangle} />
+          <IonLabel>Home</IonLabel>
+        </IonTabButton>
+        {/* <IonTabButton tab="tab2" href="/tab2">
+          <IonIcon aria-hidden="true" icon={ellipse} />
+          <IonLabel>Tab 2</IonLabel>
+        </IonTabButton> */}
+        <IonTabButton tab="quiz" href="/quiz">
+          <IonIcon aria-hidden="true" icon={square} />
+          <IonLabel>Quiz</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+      )}
+    </>
+  )
+};
 
 export default App;
