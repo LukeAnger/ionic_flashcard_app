@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { IonContent, IonCard, IonButton, IonToolbar, IonLoading, IonFooter } from "@ionic/react";
+import { IonContent, IonCard, IonButton, IonToolbar, IonLoading, IonFooter, IonTitle } from "@ionic/react";
 import QuizListItem from "./QuizListItem";
 import Explanation from "./Explanation";
 import { QuizListProps } from "./quizTypings";
+import Hint from "./Hint";
 
 const QuizList: React.FC<QuizListProps> = ({ questions }) => {
     // console.log("QuizList Questions: ", questions);
@@ -19,8 +20,8 @@ const QuizList: React.FC<QuizListProps> = ({ questions }) => {
         }
         setCurrIndex((prev) => prev + 1);
         setCurrExplanation("");
-        setShowExplanation(false);
         setCurrSelectedAnswer("");
+        setShowHint(false);
     };
 
     const handlePrev = () => {
@@ -33,15 +34,17 @@ const QuizList: React.FC<QuizListProps> = ({ questions }) => {
     const handleSelectAnswer = (letter: string) => {
         setCurrSelectedAnswer(letter);
         setCurrExplanation(questions[currIndex]["Explanation for Options"][letter]);
-        setShowExplanation(true);
+        setShowHint(false);
     }
     
     const handleShowExplanation = () => {
         setShowExplanation(!showExplanation);
+        setShowHint(false);
     }
 
     const handleShowHint = () => {
         setShowHint(!showHint);
+        setShowExplanation(false);
     }
 
     if (questions.length === 0) {
@@ -66,17 +69,24 @@ const QuizList: React.FC<QuizListProps> = ({ questions }) => {
                         />
                 </IonCard>
                 
-                <Explanation explanation={currExplanation} showExplanation={showExplanation} />
                 
+                <Explanation explanation={currExplanation} showExplanation={showExplanation} />
+                <Hint hint={currentQuestion.Hint} showHint={showHint} />
             </IonContent>
             <IonFooter >
                 <IonToolbar id="quiz-footer" >
                     {/* <IonButton disabled={currIndex === 0 ? true: false} onClick={handlePrev}>Previous</IonButton> */}
-                    <IonButton slot="secondary" onClick={handleShowHint}>
-                        Show Hint
+                    <IonButton className="quiz-buttons" slot="start" disabled={currSelectedAnswer !== ""} onClick={handleShowHint}>
+                        Hint
                     </IonButton>
-                    <IonButton slot="primary" disabled={currIndex === questions.length - 1 ? true : false} onClick={handleNext}>
-                        Continue
+                    <IonTitle>
+                        <IonButton disabled={currSelectedAnswer === ""} onClick={handleNext}>
+                            Continue
+                        </IonButton>
+
+                    </IonTitle>
+                    <IonButton className="quiz-buttons" slot="end" disabled={currSelectedAnswer === ""} onClick={handleShowExplanation}>
+                        Explanation
                     </IonButton>
                 </IonToolbar>
             </IonFooter>
