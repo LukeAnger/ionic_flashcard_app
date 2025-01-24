@@ -1,24 +1,72 @@
 import React from "react";
-import { IonItem, IonLabel, IonButton, IonCard, IonCardContent } from "@ionic/react";
-import { Question } from "./quizTypings";
+import { IonItem, IonLabel, IonCheckbox, IonCardContent } from "@ionic/react";
+import { QuizListItemProps } from "./quizTypings";
+import Answer from "./Answer";
+import Explanation from "./Explanation";
+import Hint from "./Hint";
 
-// Define the props explicitly
-interface QuizListItemProps {
-  question: Question;
-}
+const QuizListItem: React.FC<QuizListItemProps> = ({ question, handleSelectAnswer, currSelectedAnswer, showExplanation, handleShowExplanation }) => {
+    console.log("QuizListItem Question: ", question);
+    const handleIsCorrect = (answer: string) => {
+        if (answer === question["Correct Answer"]) {
+            return true;
+        }
+        return false;
+    }
 
-const QuizListItem: React.FC<QuizListItemProps> = ({ question }) => {
-  return (
-      <IonCardContent>
-        <IonLabel>
-          <h3>{question.Question}</h3>
-        </IonLabel>
-        <p>A: {question.A}</p>
-        <p>B: {question.B}</p>
-        <p>C: {question.C}</p>
-        <p>D: {question.D}</p>
-      </IonCardContent>
-  );
+    return (
+        <IonCardContent id="quiz-card-content" >
+            
+            <div id="question">{question.Question}</div>
+
+            <div id="answers">
+                <Answer 
+                    answer={{
+                        letter: "A", 
+                        option: question.A, 
+                        selected: currSelectedAnswer === "A" ? true : false, 
+                        correct: handleIsCorrect("A")
+                    }} 
+                    handleSelectAnswer={handleSelectAnswer} 
+                />
+
+                <Answer 
+                    
+                    answer={{
+                        letter: "B", 
+                        option: question.B, 
+                        selected: currSelectedAnswer === "B" ? true : false, 
+                        correct: handleIsCorrect("B")
+                    }}  
+                    handleSelectAnswer={handleSelectAnswer} 
+                />
+
+                <Answer 
+                    
+                    answer={{
+
+                        letter: "C", 
+                        option: question.C, 
+                        selected: currSelectedAnswer === "C" ? true : false, 
+                        correct: handleIsCorrect("C")
+                    }}  
+                    handleSelectAnswer={handleSelectAnswer} 
+                />
+
+                <Answer 
+                    
+                    answer={{
+                        letter: "D", 
+                        option: question.D, 
+                        selected: currSelectedAnswer === "D" ? true : false, 
+                        correct: handleIsCorrect("D")
+                    }}  
+                    handleSelectAnswer={handleSelectAnswer} 
+                />
+            </div>
+                    
+        </IonCardContent>
+    );
 };
 
 export default QuizListItem;
