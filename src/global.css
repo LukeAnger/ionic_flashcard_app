@@ -25,6 +25,11 @@ body {
     padding: 0;
 }
 
+.grid-center {
+    display: grid;
+    place-items: center;
+}
+
 .row { 
     display: flex;
 }

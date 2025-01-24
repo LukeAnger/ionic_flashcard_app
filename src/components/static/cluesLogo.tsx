@@ -1,5 +1,5 @@
 const CluesLogo: React.FC = () => (
-    <svg width="131" height="60" viewBox="0 0 131 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="131" height="36" viewBox="0 0 131 49" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="gradient1" x1="65.5" y1="0" x2="65.5" y2="49" gradientUnits="userSpaceOnUse">
                 <stop stopColor="#2d4df9"/>
