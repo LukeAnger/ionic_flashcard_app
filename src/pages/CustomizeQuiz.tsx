@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   IonPage,
   IonHeader,
@@ -14,10 +15,13 @@ import {
 } from "@ionic/react";
 import { useStore } from "../context/store/index";
 import { getQuestions } from "../utils/getQuestions";
+import Header from "../components/header/Header";
 
 const CustomizeQuiz: React.FC = () => {
   const { state } = useStore();
   const [selectedConcepts, setSelectedConcepts] = useState<string[]>([]);
+
+  const history = useHistory();
 
   const handleConceptSelect = (concept: string) => {
     setSelectedConcepts((prev) =>
@@ -37,6 +41,7 @@ const CustomizeQuiz: React.FC = () => {
       });
 
       // Navigate to flashcard lesson with fetched questions
+      history.push("/quiz");
       console.log("Fetched Questions:", questionsResponse.questions);
     } catch (error) {
       console.error("Error fetching questions:", error);
@@ -45,12 +50,9 @@ const CustomizeQuiz: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Customize Your Quiz</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
+      <Header showBack={true} />
+
+      <IonContent id="customize-quiz-page">
         <IonAccordionGroup>
           {Object.entries(state.topicMapping).map(([topic, concepts]) => (
             <IonAccordion value={topic} key={topic}>
@@ -79,7 +81,7 @@ const CustomizeQuiz: React.FC = () => {
           disabled={selectedConcepts.length === 0}
           onClick={handleSubmit}
         >
-          Get Flashcards
+          Start Practicing
         </IonButton>
       </IonContent>
     </IonPage>
